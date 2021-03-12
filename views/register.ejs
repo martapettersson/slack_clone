@@ -2,34 +2,44 @@
 	<h1>The Slack Clone</h1>
 	<form method="POST" action="/users/register" class="form-signin">
 		<h2 class="h3 mb-3 font-weight-normal">Please register</h2>
+		<%- include("partials/messages") %>
 		<div class="form-group">
 			<label for="name">Name</label>
 			<input
 				type="name"
+				name="name"
 				class="form-control"
 				id="name"
 				placeholder="Enter your full name"
 				autofocus
+				value="<%= typeof name != "undefined" ? name : "" %> "
 			/>
 		</div>
 		<div class="form-group">
 			<label for="email">Email</label>
 			<input
 				type="email"
+				name="email"
 				class="form-control"
 				id="email"
 				placeholder="Enter your email address"
 				autofocus
+				value="<%= typeof email != "undefined" ? email : "" %> "
 			/>
 		</div>
 		<div class="form-group">
 			<label for="password">Password</label>
 			<input
 				type="password"
+				name="password"
 				class="form-control"
 				id="password"
 				placeholder="Choose a password"
+				aria-describedby="passwordHelp"
 			/>
+			<div id="passwordHelp" class="form-text">
+				<p class="italic">At least 8 characters long</p>
+			</div>
 		</div>
 		<button type="submit" class="btn btn-primary">Register</button>
 	</form>

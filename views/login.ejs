@@ -2,10 +2,12 @@
 	<h1>The Slack Clone</h1>
 	<form method="POST" action="/users/login" class="form-signin">
 		<h2 class="h3 mb-3 font-weight-normal">Please sign in</h2>
+		<%- include("partials/messages") %>
 		<div class="form-group">
 			<label for="email">Email address</label>
 			<input
 				type="email"
+				name="email"
 				class="form-control"
 				id="email"
 				aria-describedby="emailHelp"
@@ -20,6 +22,7 @@
 			<label for="password">Password</label>
 			<input
 				type="password"
+				name="password"
 				class="form-control"
 				id="password"
 				placeholder="Password"

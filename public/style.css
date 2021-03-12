@@ -1,6 +1,38 @@
-@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
 
 body {
 	background-color: rgb(230, 215, 255);
 	font-family: "Lato", sans-serif;
 }
+
+.italic {
+	font-style: italic;
+}
+
+.welcome {
+	background-image: url("/public/the_slack_clone.001.jpeg");
+	width: 100%;
+	height: auto;
+	margin: 0;
+	padding: 0;
+	top: 0;
+	left: 0;
+}
+
+#welcome-container {
+	width: 100%;
+	height: 100%;
+	position: relative;
+  }
+  .slack {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+  }
+  #login-register {
+	z-index: 10;
+	margin-top: 2%;
+	margin-left: 2%;
+  }
