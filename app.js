@@ -24,6 +24,9 @@ app.use(expressEjsLayout);
 // Public static files
 app.use("/public", express.static(path.join(__dirname, "public")));
 
+//JSON
+app.use(express.json())
+
 // To use body-parser
 app.use(express.urlencoded({ extended: true }));
 

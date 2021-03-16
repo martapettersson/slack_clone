@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 // Model for new users
 const UserSchema = new mongoose.Schema({

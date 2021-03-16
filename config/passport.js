@@ -15,7 +15,7 @@ module.exports = function (passport) {
 					}
 
 					if (!user) {
-						return done(null, false, { message: "Incorrect email!" });
+						return done(null, false, { message: "Incorrect email or password!" });
 					}
 
 					// Compare user password and password input
@@ -26,7 +26,7 @@ module.exports = function (passport) {
 						if (isMatch) {
 							return done(null, user);
 						} else {
-							return done(null, false, { message: "Incorrect password!" });
+							return done(null, false, { message: "Incorrect email or password!" });
 						}
 					});
 				}).catch((error) => console.log(error));

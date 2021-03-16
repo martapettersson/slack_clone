@@ -1,22 +1,25 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+/* rgb(203, 41, 123); */
 
-body {
-	background-color: rgb(230, 215, 255);
+html, body {
+	background-color: rgb(245, 236, 242);
 	font-family: "Lato", sans-serif;
+	height: 100%;
+}
+
+#slack-icon{
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: 900;
+	color: rgb(203, 41, 123);
+}
+
+.full-height {
+	height: 100%;
 }
 
 .italic {
 	font-style: italic;
-}
-
-.welcome {
-	background-image: url("/public/the_slack_clone.001.jpeg");
-	width: 100%;
-	height: auto;
-	margin: 0;
-	padding: 0;
-	top: 0;
-	left: 0;
 }
 
 #welcome-container {
