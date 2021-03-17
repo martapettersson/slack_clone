@@ -6,17 +6,30 @@ const ChannelSchema = new mongoose.Schema({
 	name: {
 		type: String,
 		required: true,
+		unique: true,
+	},
+	description: {
+		type: String,
+		maxlength: 1000,
 	},
 	date: {
 		type: Date,
-		default: Date.now,
+		default: new Date(),
 	},
-	messages: [
-		{
+	messages: [{
+		user : {
 			type: Schema.Types.ObjectId,
-			ref: "ChannelMessage",
+			ref: "User",
+			required: true,
 		},
-	],
+		message : {
+			type: String,
+		},
+		date: {
+			type: Date,
+			default: new Date(),
+		},
+	}],
 });
 
 const Channel = mongoose.model("Channel", ChannelSchema);

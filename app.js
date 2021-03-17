@@ -1,13 +1,19 @@
 const express = require("express");
 const app = express();
+const http = require("http").Server(app);
+const io = require("socket.io")(http);
+
 const expressEjsLayout = require("express-ejs-layouts");
+
 const path = require("path");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
 const flash = require("connect-flash");
+
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
+const channelsRouter = require("./routes/channels");
 
 require("./config/passport")(passport);
 
@@ -25,7 +31,7 @@ app.use(expressEjsLayout);
 app.use("/public", express.static(path.join(__dirname, "public")));
 
 //JSON
-app.use(express.json())
+app.use(express.json());
 
 // To use body-parser
 app.use(express.urlencoded({ extended: true }));
@@ -56,5 +62,25 @@ app.use((req, res, next) => {
 // Routes
 app.use("/", indexRouter);
 app.use("/users/", usersRouter);
+app.use("/channels/", channelsRouter);
 
-app.listen(3000);
+// SOCKET
+io.on("connection", (socket) => {
+	// every "user" has one socket each
+	console.log("user connected");
+
+	//broadcast
+	socket.on("newChannelMessage", (message) => {
+		io.emit("newChannelMessage", message);
+	});
+
+	socket.on("userOnline", (user) => {
+		io.emit("userOnline", user);
+	});
+
+	socket.on("disconnect", () => {
+		console.log("user disconnected");
+	});
+});
+
+http.listen(3000);

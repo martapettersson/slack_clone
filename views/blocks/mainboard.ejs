@@ -1,31 +1,5 @@
-<div id="mainboard" class="col-6 border-white border-top">
-	<h1 id="mainheader">Welcome</h1>
-	<div class="row row-cols-1">
-		<div class="col border-white border-bottom"></div>
-		<div class="col">
-			<div id="channel_messages" class="row row-cols-1">
-				<!-- <div class="col">
-					<div class="border border-secondary">
-						<strong><%= user.name%></strong> 201219092
-						<p>Lorem ipsum dolor sit amet consectetur.</p>
-					</div>
-				</div> -->
-			</div>
-		</div>
-		<div class="col border-white border-top">
-			<form method="POST" action="/channel/new-message">
-				<div class="form-floating mt-2">
-					<textarea
-						class="form-control bg-dark text-white"
-						placeholder="Message"
-						id="channel_message"
-						name="channel_message"
-						style="height: 100px"
-					></textarea>
-					<label for="channel_message">Message</label>
-				</div>
-				<button type="submit" class="btn btn-light">Send</button>
-			</form>
-		</div>
-	</div>
+<div id="mainboard" class="col-8 border-white border-top">
+	<h3 id="mainheader">Welcome</h3>
+	<p id="descriptionheader" class="text-secondary">Add/navigate to a room</p>
+	<%- include("room") %>
 </div>

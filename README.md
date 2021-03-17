@@ -12,7 +12,6 @@ Node-krav:
 
 G-krav:
 - Kunna sätta upp chat-rum/kanaler
-- Kunna sätta upp privata chattar med en enskild person
 - Skapa konto/logga in med det kontot (email och alias)
 - Kunna ladda upp en fil i valfritt användningsområde
 - Spara meddelanden, konton osv i databas
@@ -25,6 +24,8 @@ VG-krav (lösa 3 av följande):
 - Uppdatera/radera sina egna chattmeddelanden
 - Indikera vilka som är online (uppkopplad mot servern)
 - Roller
-- För att kunna få VG måste du ha lämnat in i tid. Du kan bara få VG vid ordinarie inlämning.
+- Kunna sätta upp privata chattar med en enskild person
+
+För att kunna få VG måste du ha lämnat in i tid. Du kan bara få VG vid ordinarie inlämning.
 
 Inlämningsuppgiften är individuell, men det är tillåtet att samarbeta så länge du kan redovisa all kod du lämnar in. Redovisning sker genom individuell genomgång med läraren samt inlämning av git-repo.
