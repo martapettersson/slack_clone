@@ -26,7 +26,22 @@ router.get("/online", ensureAuthenticated, (req, res) => {
 router.post("/edit-profile", (req, res) => {
 	try {
 		if (!req.files) {
-			res.redirect("/dashboard");
+			User.findOneAndUpdate(
+				{ _id: req.user._id },
+				{
+					$set: {
+						name: req.body.user_name,
+						email: req.body.user_email,
+					},
+				}
+			).exec(function (err, book) {
+				if (err) {
+					console.log(err);
+					res.status(500).redirect("/dashboard");
+				} else {
+					res.status(200).redirect("/dashboard");
+				}
+			});
 		} else {
 			let profile_pic = req.files.profile_pic;
 			let file_name = `./uploads/${profile_pic.name}`;
