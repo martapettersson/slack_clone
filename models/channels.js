@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // Model for new users
-const ChannelSchema = new mongoose.Schema({
+const ChannelSchema = new Schema({
 	name: {
 		type: String,
 		required: true,

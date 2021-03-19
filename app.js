@@ -6,6 +6,8 @@ const io = require("socket.io")(http);
 const expressEjsLayout = require("express-ejs-layouts");
 
 const path = require("path");
+const fileUpload = require("express-fileupload");
+const fs = require("fs");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
@@ -27,8 +29,20 @@ mongoose
 app.set("view engine", "ejs");
 app.use(expressEjsLayout);
 
-// Public static files
+// FILEUPLOAD
+app.use(
+	fileUpload({
+		createParentPath: true,
+		// limits: {
+		// 	files: 1,
+		// 	fileSize: 5 * 1024 * 1024,
+		// },
+	})
+);
+
+// Static files
 app.use("/public", express.static(path.join(__dirname, "public")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 //JSON
 app.use(express.json());
@@ -64,12 +78,19 @@ app.use("/", indexRouter);
 app.use("/users/", usersRouter);
 app.use("/channels/", channelsRouter);
 
+// USERS
+let users = [];
+
 // SOCKET
 io.on("connection", (socket) => {
-	// every "user" has one socket each
-	console.log("user connected");
-
-	//broadcast
+	socket.on("joinServer", (userName) => {
+		const user = {
+			userName: userName,
+			id: socket.id,
+		};
+		users.push(user);
+		io.emit("usersOnline", users);
+	});
 	socket.on("newChannelMessage", (message) => {
 		io.emit("newChannelMessage", message);
 	});
@@ -80,6 +101,8 @@ io.on("connection", (socket) => {
 
 	socket.on("disconnect", () => {
 		console.log("user disconnected");
+		users = users.filter((user) => user.id != socket.id);
+		io.emit("usersOnline", users);
 	});
 });
 

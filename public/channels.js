@@ -1,12 +1,18 @@
 const loadChannels = () => {
-	fetch("/channels/read")
+	fetch("/channels/")
 		.then((res) => res.json())
 		.then((channels) => {
 			let channel_list = document.getElementById("channel_list");
 			for (channel of channels) {
 				let channel_el = `
                 <div class="col-12">
-                    <p class="link link-light" onclick="loadChannelById('${channel._id}')"># ${channel.name}</p>
+					<table class="table table-hover table-dark">
+						<tr>
+							<td class="link link-light" onclick="loadChannelById('${channel._id}')">
+							# ${channel.name}
+							</td>
+						</tr>
+					</table>
                 </div>
             `;
 				channel_list.innerHTML += channel_el;

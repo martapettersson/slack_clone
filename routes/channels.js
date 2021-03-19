@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const Channel = require("../models/channels");
-const ChannelMessage = require("../models/channel_messages");
+// const ChannelMessage = require("../models/channel_messages");
 const { ensureAuthenticated } = require("../config/auth");
 
 /********** CHANNELS ***********/
 
-router.get("/read", ensureAuthenticated, (req, res) => {
+router.get("/", ensureAuthenticated, (req, res) => {
 	Channel.find().exec((error, channels) => {
 		if (error) {
 			return handleError(error);

@@ -3,17 +3,16 @@ let users = [];
 
 fetch("/online")
 	.then((res) => res.json())
-	.then((user) => {
-		socket.emit("userOnline", user);
+	.then((userName) => {
+		socket.emit("joinServer", userName);
 	});
 
-socket.on("userOnline", (user) => {
-    console.log(user)
-    // users.push(user)
-    // console.log(users)
-	// for (user of users) {
+socket.on("usersOnline", (users) => {
+    console.log(users)
+	online_list.innerHTML = "";
+	for (user of users) {
 		let user_el = document.createElement("div");
-		user_el.textContent = user;
+		user_el.textContent = "🟢 " + user.userName;
 		online_list.appendChild(user_el);
-	// }
+	}
 });

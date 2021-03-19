@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // Model for new users
-const UserSchema = new mongoose.Schema({
+const UserSchema = new Schema({
 	name: {
 		type: String,
 		required: true,
@@ -11,6 +11,10 @@ const UserSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 		// unique: true,
+	},
+	profilePic: {
+		type: String,
+		default: "/public/images/avatar.png",
 	},
 	password: {
 		type: String,

@@ -19,7 +19,6 @@ G-krav:
 
 VG-krav (lösa 3 av följande):
 - Profilsida, kunna ladda upp ny bild
-- Stöd för emojis
 - Mentions
 - Uppdatera/radera sina egna chattmeddelanden
 - Indikera vilka som är online (uppkopplad mot servern)
