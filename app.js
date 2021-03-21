@@ -91,12 +91,17 @@ io.on("connection", (socket) => {
 		users.push(user);
 		io.emit("usersOnline", users);
 	});
-	socket.on("newChannelMessage", (message) => {
-		io.emit("newChannelMessage", message);
-	});
 
 	socket.on("userOnline", (user) => {
 		io.emit("userOnline", user);
+	});
+
+	socket.on("newChannelMessage", (newMessage) => {
+		io.emit("newChannelMessage", newMessage);
+	});
+
+	socket.on("deleteMessage", (messageId) => {
+		io.emit("deleteMessage", messageId);
 	});
 
 	socket.on("disconnect", () => {
