@@ -89,11 +89,8 @@ io.on("connection", (socket) => {
 			id: socket.id,
 		};
 		users.push(user);
+		console.log(users)
 		io.emit("usersOnline", users);
-	});
-
-	socket.on("userOnline", (user) => {
-		io.emit("userOnline", user);
 	});
 
 	socket.on("newChannelMessage", (newMessage) => {

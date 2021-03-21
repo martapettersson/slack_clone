@@ -1,9 +1,9 @@
 const online_list = document.getElementById("online_list");
-let users = [];
 
 fetch("/online")
 	.then((res) => res.json())
 	.then((userName) => {
+		console.log(userName)
 		socket.emit("joinServer", userName);
 	});
 

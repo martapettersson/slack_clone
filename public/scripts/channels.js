@@ -102,7 +102,7 @@ const createMessage = () => {
 	let message = document.getElementById("channel_message");
 
 	if (message.value != "") {
-		fetch("/channels/new-message", {
+		fetch("/channels/message/create", {
 			method: "PUT",
 			headers: {
 				"Content-Type": "application/json",
@@ -121,7 +121,7 @@ const createMessage = () => {
 };
 
 const deleteMessage = (id) => {
-	fetch("/channels/delete-message", {
+	fetch("/channels/message/delete", {
 		method: "PUT",
 		headers: {
 			"Content-Type": "application/json",
@@ -137,10 +137,32 @@ const deleteMessage = (id) => {
 		.catch((error) => console.log(error));
 };
 
+const editMessage = (id) => {
+	let message = "new"
+	// document.getElementById("channel_message");
+
+	if (message.value != "") {
+		fetch("/channels/message/update", {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ messageId: id, message: message.value, channelId: channel_id }),
+		})
+			// .then((res) => res.json())
+			// .then((newMessage) => {
+			// 	user = newMessage.user.userId;
+			// 	socket.emit("newChannelMessage", newMessage);
+			// })
+			// .catch((error) => console.log(error));
+	}
+
+	message.value = "";
+}
+
 /******************** SOCKET EVENTS ******************/
 
 socket.on("newChannelMessage", (newMessage) => {
-	console.log(newMessage);
 	let message_el = document.createElement("div");
 	message_el.className = "col mb-2";
 	if (newMessage.lastMessage.user == user) {
@@ -178,11 +200,14 @@ socket.on("newChannelMessage", (newMessage) => {
 });
 
 socket.on("deleteMessage", (messageId) => {
-	console.log(messageId)
-	// channel_messages.removeChild(channel_messages.lastChild)
 	let el = document.getElementById(messageId);
-	el.parentNode.removeChild(el)
-	// el.remove();
+	if(el) {
+		el.remove();
+	} else {
+		loadChannelById(channel_id)
+	}
+	// el.parentNode.removeChild(el)
+	// loadChannelById(channel_id)
 });
 
 loadChannels();

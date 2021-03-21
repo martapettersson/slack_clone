@@ -8,6 +8,10 @@ const ChannelSchema = new Schema({
 		required: true,
 		unique: true,
 	},
+	private: {
+		type: Boolean,
+		default: false,
+	},
 	description: {
 		type: String,
 		maxlength: 1000,
