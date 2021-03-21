@@ -6,19 +6,29 @@ const User = require("../models/users");
 /********** WELCOME ***********/
 
 router.get("/", (req, res) => {
-	res.render("welcome", { title: "The Slack Clone" });
+	res.render("welcome", { layout: false,  title: "The Slack Clone" });
 });
 
 /********** DASHBOARD ***********/
 
 router.get("/dashboard", ensureAuthenticated, (req, res) => {
+	User.findOneAndUpdate(
+		{ _id: req.user._id },
+		{
+			$set: {
+				online: true
+			},
+		}
+	).exec(function (err) {
+		if (err) {
+			console.log(err);
+			res.status(500)
+		} else {
+			res.status(200)
+		}
+	});
 	const user = req.user;
 	res.render("dashboard", { title: "Dashboard", user });
-});
-
-router.get("/online", ensureAuthenticated, (req, res) => {
-	const userName = req.user.name;
-	res.json(userName);
 });
 
 /********** UPLOADS ***********/
@@ -34,7 +44,7 @@ router.post("/edit-profile", (req, res) => {
 						email: req.body.user_email,
 					},
 				}
-			).exec(function (err, book) {
+			).exec(function (err) {
 				if (err) {
 					console.log(err);
 					res.status(500).redirect("/dashboard");
@@ -56,7 +66,7 @@ router.post("/edit-profile", (req, res) => {
 						email: req.body.user_email,
 					},
 				}
-			).exec(function (err, book) {
+			).exec(function (err) {
 				if (err) {
 					console.log(err);
 					res.status(500).redirect("/dashboard");

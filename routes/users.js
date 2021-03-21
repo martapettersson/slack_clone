@@ -7,7 +7,7 @@ const passport = require("passport");
 /*************** REGISTER ****************/
 
 router.get("/register", (req, res) => {
-	res.render("register", { title: "Register" });
+	res.render("register", { layout: false, title: "Register" });
 });
 
 router.post("/register", (req, res, next) => {
@@ -53,7 +53,7 @@ router.post("/register", (req, res, next) => {
 /************** LOGIN **************/
 
 router.get("/login", (req, res) => {
-	res.render("login", { title: "Login" });
+	res.render("login", { layout: false, title: "Login" });
 });
 
 router.post("/login", (req, res, next) => {

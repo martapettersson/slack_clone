@@ -78,33 +78,60 @@ app.use("/", indexRouter);
 app.use("/users/", usersRouter);
 app.use("/channels/", channelsRouter);
 
-// USERS
-let users = [];
-
+const formatMessage = require("./utils/message");
+const botName = "Slack Bot";
+const {
+	userJoin,
+	getCurrentUser,
+	userLeave,
+	getRoomUsers,
+} = require("./utils/users");
 // SOCKET
 io.on("connection", (socket) => {
-	socket.on("joinServer", (userName) => {
-		const user = {
-			userName: userName,
-			id: socket.id,
-		};
-		users.push(user);
-		console.log(users)
-		io.emit("usersOnline", users);
+	socket.on("joinRoom", ({ userName, roomId }) => {
+		const user = userJoin(socket.id, userName, roomId);
+		socket.join(user.room);
+
+		// Welcome
+		socket.emit("message", formatMessage(botName, "Welcome!"));
+
+		// Broadcast when a user connects
+		socket.broadcast
+			.to(user.room)
+			.emit(
+				"message",
+				formatMessage(botName, `${user.username} has joined the chat`)
+			);
+
+		// Send users and room info
+		io.to(user.room).emit("roomUsers", {
+			room: user.room,
+			users: getRoomUsers(user.room),
+		});
 	});
 
-	socket.on("newChannelMessage", (newMessage) => {
-		io.emit("newChannelMessage", newMessage);
+	// Listen for channelMessage
+	socket.on("channelMessage", (msg) => {
+		const user = getCurrentUser(socket.id);
+		console.log(user);
+		io.to(user.room).emit("message", formatMessage(user.username, msg));
 	});
 
-	socket.on("deleteMessage", (messageId) => {
-		io.emit("deleteMessage", messageId);
-	});
-
+	// Client disconnects
 	socket.on("disconnect", () => {
-		console.log("user disconnected");
-		users = users.filter((user) => user.id != socket.id);
-		io.emit("usersOnline", users);
+		const user = userLeave(socket.id);
+		if (user) {
+			io.to(user.room).emit(
+				"message",
+				formatMessage(botName, `${user.username} has left the chat`)
+			);
+
+			// Send users and room info
+			io.to(user.room).emit("roomUsers", {
+				room: user.room,
+				users: getRoomUsers(user.room),
+			});
+		}
 	});
 });
 

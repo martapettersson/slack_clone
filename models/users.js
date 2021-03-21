@@ -10,7 +10,7 @@ const UserSchema = new Schema({
 	email: {
 		type: String,
 		required: true,
-		// unique: true,
+		unique: true,
 	},
 	profilePic: {
 		type: String,
@@ -23,6 +23,11 @@ const UserSchema = new Schema({
 	date: {
 		type: Date,
 		default: Date.now,
+	},
+	online: {
+		type: Boolean,
+		default: false,
+		required: true,
 	},
 });
 

@@ -1,0 +1,36 @@
+<%- include("blocks/navbar") %>
+<div class="row p-2 bg-dark text-white full-height">
+	<%- include("blocks/channellist") %>
+	<div id="mainboard" class="col-8 border-white border-top">
+		<input type="hidden" value="<%= channel._id %>" id="room_id">
+		<input type="hidden" value="<%= user._id %>" id="user_id">
+		<input type="hidden" value="<%= user.name %>" id="user_name">
+		<h3 id="mainheader"><%= channel.name %></h3>
+		<p id="descriptionheader" class="text-secondary">
+			<%= channel.description %>
+		</p>
+		<div id="room" class="row row-cols-1">
+			<div class="col border-white border-bottom"></div>
+			<div class="col">
+				<div id="channel_messages">
+				</div>
+			</div>
+			<div class="col border-white border-top">
+				<form class="form-floating mt-2" id="message_form">
+					<textarea
+						class="form-control bg-dark text-white"
+						placeholder="Message"
+						id="msg"
+						name="channel_message"
+						style="height: 100px"
+					></textarea>
+					<label for="channel_message">Message</label>
+					<button type="submit" class="btn btn-light">Send</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<%- include("blocks/online") %>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/public/scripts/channel.js"></script>
