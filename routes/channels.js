@@ -49,26 +49,25 @@ router.get("/:id", ensureAuthenticated, (req, res) => {
 
 /********** CHANNEL MESSAGES ***********/
 
-// router.put("/message/create", ensureAuthenticated, (req, res) => {
-// 	let new_message = {
-// 		user: req.user._id,
-// 		message: req.body.message,
-// 	};
+router.put("/message/create", ensureAuthenticated, (req, res) => {
+	let new_message = {
+		user: req.user._id,
+		message: req.body.msg,
+	};
 
-// 	Channel.findOneAndUpdate(
-// 		{_id: req.body.channelId},
-// 		{$push: { messages: new_message}},
-// 		{new: true},
-// 		(err, doc) => {
-// 			if (err) {
-// 				return handleError(error);
-// 			}
-// 			let messages = doc.messages;
-// 			let lastMessage = messages[messages.length -1]
-// 			res.send({lastMessage, user: {userName: req.user.name, userId : req.user._id}})
-// 		}
-// 	)
-// });
+	Channel.findOneAndUpdate(
+		{_id: req.body.roomId},
+		{$push: { messages: new_message}},
+		{new: true},
+		(err, doc) => {
+			if (err) {
+				return handleError(error);
+			} else {
+				res.send(doc)
+			}
+		}
+	)
+});
 
 // router.put("/message/delete", ensureAuthenticated, (req, res) => {
 // 	Channel.updateOne(

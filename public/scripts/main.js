@@ -10,7 +10,6 @@ const loadChannels = () => {
                     <tbody>
                         <tr>
                         <td><a class="text-decoration-none" href="/channels/${channel._id}"># ${channel.name}</a></td>
-                        <input type=hidden value= />
                         </tr>
                     </tbody>
                 `;

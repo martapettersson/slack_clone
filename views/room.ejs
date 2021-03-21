@@ -13,6 +13,16 @@
 			<div class="col border-white border-bottom"></div>
 			<div class="col">
 				<div id="channel_messages">
+					<% channel.messages.forEach(message => { %>
+						<div class="bg-white text-dark mb-1">
+							<% if (message.user._id.toString() === user._id.toString()) { %>
+								<button type="button" class="btn btn-secondary">❌</button>
+							<% } %>
+							<hr>
+							<strong><%= message.user.name %></strong> <span><%= message.date %></span></strong>
+							<p><%= message.message %></p>
+						</div>
+					<% }) %>
 				</div>
 			</div>
 			<div class="col border-white border-top">

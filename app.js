@@ -92,16 +92,16 @@ io.on("connection", (socket) => {
 		const user = userJoin(socket.id, userName, roomId);
 		socket.join(user.room);
 
-		// Welcome
-		socket.emit("message", formatMessage(botName, "Welcome!"));
+		// // Welcome
+		// socket.emit("message", formatMessage(botName, "Welcome!"));
 
-		// Broadcast when a user connects
-		socket.broadcast
-			.to(user.room)
-			.emit(
-				"message",
-				formatMessage(botName, `${user.username} has joined the chat`)
-			);
+		// // Broadcast when a user connects
+		// socket.broadcast
+		// 	.to(user.room)
+		// 	.emit(
+		// 		"message",
+		// 		formatMessage(botName, `${user.username} has joined the chat`)
+		// 	);
 
 		// Send users and room info
 		io.to(user.room).emit("roomUsers", {
@@ -121,10 +121,10 @@ io.on("connection", (socket) => {
 	socket.on("disconnect", () => {
 		const user = userLeave(socket.id);
 		if (user) {
-			io.to(user.room).emit(
-				"message",
-				formatMessage(botName, `${user.username} has left the chat`)
-			);
+			// io.to(user.room).emit(
+			// 	"message",
+			// 	formatMessage(botName, `${user.username} has left the chat`)
+			// );
 
 			// Send users and room info
 			io.to(user.room).emit("roomUsers", {
