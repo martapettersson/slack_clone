@@ -27,8 +27,14 @@ router.get("/dashboard", ensureAuthenticated, (req, res) => {
 			res.status(200)
 		}
 	});
-	const user = req.user;
-	res.render("dashboard", { title: "Dashboard", user });
+	User.find().exec((error, users) => {
+		if (error) {
+			return handleError(error);
+		} else {
+			const user = req.user;
+			res.render("dashboard", { title: "Dashboard", user, users });
+		}
+	});
 });
 
 /********** UPLOADS ***********/

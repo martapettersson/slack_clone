@@ -1,6 +1,6 @@
 <%- include("blocks/navbar") %>
 <div class="row p-2 bg-dark text-white full-height">
-	<%- include("blocks/channellist") %>
+	<%- include("blocks/sidebar") %>
 	<div id="mainboard" class="col-8 border-white border-top">
 		<input type="hidden" value="<%= channel._id %>" id="room_id">
 		<input type="hidden" value="<%= user._id %>" id="user_id">
@@ -18,8 +18,7 @@
 							<% if (message.user._id.toString() === user._id.toString()) { %>
 								<button type="button" class="btn btn-secondary">❌</button>
 							<% } %>
-							<hr>
-							<strong><%= message.user.name %></strong> <span><%= message.date %></span></strong>
+							<strong><%= message.user.name %></strong> <span><%= message.date.toGMTString() %></span></strong>
 							<p><%= message.message %></p>
 						</div>
 					<% }) %>

@@ -1,16 +1,21 @@
 const express = require("express");
 const router = express.Router();
 const Channel = require("../models/channels");
+const User = require("../models/users");
 const { ensureAuthenticated } = require("../config/auth");
 
 /********** CHANNELS ***********/
 
 router.get("/", ensureAuthenticated, (req, res) => {
-	Channel.find({ private: false }).exec((error, channels) => {
+	Channel.find().exec((error, rooms) => {
 		if (error) {
 			return handleError(error);
 		} else {
-			res.send(channels);
+			console.log(rooms);
+			let userRooms = rooms.filter(
+				(room) => room.members.includes(req.user._id) || room.private == false
+			);
+			res.send(userRooms);
 		}
 	});
 });
@@ -24,27 +29,62 @@ router.post("/create", ensureAuthenticated, (req, res) => {
 		channel.save((err, doc) => {
 			if (err) {
 				console.log(err);
-				res.status(500)
+				res.status(500);
 			} else {
-				res.status(200).send(doc)
+				res.status(200).send(doc);
 			}
-		})
+		});
 	} catch (error) {
 		console.log(error);
 	}
 });
 
 router.get("/:id", ensureAuthenticated, (req, res) => {
-	Channel.findById({
-		_id: req.params.id,
-	})
-    .populate("messages.user")
-    .exec((error, channel) => {
+	let data = {};
+	User.find().exec((error, users) => {
 		if (error) {
 			return handleError(error);
+		} else {
+			Channel.findById({
+				_id: req.params.id,
+			})
+				.populate("messages.user")
+				.exec((error, channel) => {
+					if (error) {
+						return handleError(error);
+					} else {
+						res.render("room", {
+							channel,
+							user: req.user,
+							users,
+							title: channel.name,
+						});
+					}
+				});
 		}
-		res.render("room", {channel, user: req.user, title: channel.name})
 	});
+});
+
+// /********** PRIVATE CHATS ***********/
+
+router.post("/private/create", ensureAuthenticated, (req, res) => {
+	let chat = new Channel({
+		name: `${req.user.name} - ${req.body.userName}`,
+		private: true,
+		members: [req.user._id, req.body.user],
+	});
+	try {
+		chat.save((err, doc) => {
+			if (err) {
+				console.log(err);
+				res.status(500);
+			} else {
+				res.status(200).send(doc);
+			}
+		});
+	} catch (error) {
+		console.log(error);
+	}
 });
 
 /********** CHANNEL MESSAGES ***********/
@@ -56,22 +96,22 @@ router.put("/message/create", ensureAuthenticated, (req, res) => {
 	};
 
 	Channel.findOneAndUpdate(
-		{_id: req.body.roomId},
-		{$push: { messages: new_message}},
-		{new: true},
+		{ _id: req.body.roomId },
+		{ $push: { messages: new_message } },
+		{ new: true },
 		(err, doc) => {
 			if (err) {
 				return handleError(error);
 			} else {
-				res.send(doc)
+				res.send(doc);
 			}
 		}
-	)
+	);
 });
 
 // router.put("/message/delete", ensureAuthenticated, (req, res) => {
 // 	Channel.updateOne(
-// 		{ '_id': req.body.channelId }, 
+// 		{ '_id': req.body.channelId },
 // 		{ $pull: { messages: { _id: req.body.messageId } } },
 // 		{ safe: true },
 //     	(err, obj) => {
@@ -85,8 +125,8 @@ router.put("/message/create", ensureAuthenticated, (req, res) => {
 
 // router.put("/message/update", ensureAuthenticated, (req, res) => {
 // 	Channel.updateOne(
-// 		{ '_id': req.body.channelId }, 
-// 		{ 'messages._id': req.body.messageId }, 
+// 		{ '_id': req.body.channelId },
+// 		{ 'messages._id': req.body.messageId },
 // 		{ $set: { "messages.$.message": req.body.message } },
 //     	(err, obj) => {
 // 			if (err) {

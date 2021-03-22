@@ -12,6 +12,13 @@ const ChannelSchema = new Schema({
 		type: Boolean,
 		default: false,
 	},
+	members: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "User",
+			required: true,
+		},
+	],
 	description: {
 		type: String,
 		maxlength: 1000,
@@ -20,20 +27,22 @@ const ChannelSchema = new Schema({
 		type: Date,
 		default: new Date(),
 	},
-	messages: [{
-		user : {
-			type: Schema.Types.ObjectId,
-			ref: "User",
-			required: true,
+	messages: [
+		{
+			user: {
+				type: Schema.Types.ObjectId,
+				ref: "User",
+				required: true,
+			},
+			message: {
+				type: String,
+			},
+			date: {
+				type: Date,
+				default: new Date(),
+			},
 		},
-		message : {
-			type: String,
-		},
-		date: {
-			type: Date,
-			default: new Date(),
-		},
-	}],
+	],
 });
 
 const Channel = mongoose.model("Channel", ChannelSchema);

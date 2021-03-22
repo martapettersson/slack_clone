@@ -20,7 +20,9 @@ socket.on("message", (msg) => {
 	outputMessage(msg);
 
 	// Scroll down
-	channelMessages.scrollTop = channelMessages.scrollHeight;
+	// channelMessages.scrollTop = channelMessages.scrollHeight;
+	// window.scrollTo(0, document.body.scrollHeight)
+	// channelMessages.scrollIntoView(false)
 });
 
 //Message submit
@@ -28,25 +30,25 @@ messageForm.addEventListener("submit", (e) => {
 	e.preventDefault();
 	const msg = e.target.elements.msg.value;
 
-    if(msg) {
-        // Save to DB
-	fetch("/channels/message/create", {
-		method: "PUT",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({msg, roomId}),
-	})
-		.then((res) => res.json())
-		.then((data) => {
-			//Emit msg to server
-			socket.emit("channelMessage", msg);
+	if (msg) {
+		// Save to DB
+		fetch("/channels/message/create", {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ msg, roomId }),
 		})
-		.catch((error) => {
-			console.error("Error:", error);
-		});
-    }
-    e.target.elements.msg.value = "";
+			.then((res) => res.json())
+			.then((data) => {
+				//Emit msg to server
+				socket.emit("channelMessage", msg);
+			})
+			.catch((error) => {
+				console.error("Error:", error);
+			});
+	}
+	e.target.elements.msg.value = "";
 	e.target.elements.msg.focus();
 });
 
@@ -55,14 +57,14 @@ messageForm.addEventListener("submit", (e) => {
 const outputMessage = (msg) => {
 	const div = document.createElement("div");
 	div.className = "bg-white text-dark mb-1";
-    const editAndDelete = `
+	const editAndDelete = `
         <hr>
         <button type="button" class="btn btn-secondary">❌</button>
-    `
+    `;
 	div.innerHTML = `
     <hr>
         <button type="button" class="btn btn-secondary">❌</button>
-    <strong>${msg.username} <span>${msg.time}</span></strong>
+    <strong>${msg.username}</strong> <span>${msg.time}</span>
         <p class="text">
             ${msg.text}
         </p>`;

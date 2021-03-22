@@ -1,8 +1,9 @@
 const formatMessage = (username, text) => {
+    const dateObj = new Date()
     return {
         username,
         text,
-        time: "15:10"
+        time: dateObj.toGMTString()
     }
 }
 
