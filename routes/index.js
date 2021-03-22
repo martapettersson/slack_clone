@@ -7,7 +7,7 @@ const User = require("../models/users");
 /********** WELCOME ***********/
 
 router.get("/", (req, res) => {
-	res.render("welcome", { layout: false, title: "The Slack Clone" });
+	res.render("login", { layout: false, title: "The Slack Clone" });
 });
 
 /********** DASHBOARD ***********/

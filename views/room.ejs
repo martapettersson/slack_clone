@@ -1,45 +1,49 @@
+<div class="chat-container">
 <%- include("blocks/navbar") %>
-<div class="row p-2 bg-dark text-white full-height">
+<div class="row p-2">
 	<%- include("blocks/sidebar") %>
-	<div id="mainboard" class="col-8 border-white border-top">
+	<div id="mainboard" class="col-8 border border-top">
 		<input type="hidden" value="<%= channel._id %>" id="room_id">
 		<input type="hidden" value="<%= user._id %>" id="user_id">
 		<input type="hidden" value="<%= user.name %>" id="user_name">
 		<h3 id="mainheader"><%= channel.name %></h3>
 		<p id="descriptionheader" class="text-secondary">
-			<%= channel.description %>
+			<% if (channel.description) { %>
+				<%= channel.description %>
+			<% } else { %>
+				This a chat room
+			<% } %>
 		</p>
+		<hr>
 		<div id="room" class="row row-cols-1">
-			<div class="col border-white border-bottom"></div>
-			<div class="col">
-				<div id="channel_messages">
+				<div class="chat-messages" id="channel_messages">
 					<% channel.messages.forEach(message => { %>
-						<div class="bg-white text-dark mb-1">
-							<% if (message.user._id.toString() === user._id.toString()) { %>
+						<div class="message">
+							<!-- <% if (message.user._id.toString() === user._id.toString()) { %>
 								<button type="button" class="btn btn-secondary">❌</button>
-							<% } %>
-							<strong><%= message.user.name %></strong> <span><%= message.date.toGMTString() %></span></strong>
-							<p><%= message.message %></p>
+							<% } %> -->
+							<strong class="meta"><%= message.user.name %></strong> <span><%= message.date.toGMTString() %></span></strong>
+							<p class="text"><%= message.message %></p>
 						</div>
 					<% }) %>
 				</div>
-			</div>
-			<div class="col border-white border-top">
+			<div class="col chat-form-container">
 				<form class="form-floating mt-2" id="message_form">
 					<textarea
-						class="form-control bg-dark text-white"
+						class="form-control"
 						placeholder="Message"
 						id="msg"
 						name="channel_message"
 						style="height: 100px"
 					></textarea>
 					<label for="channel_message">Message</label>
-					<button type="submit" class="btn btn-light">Send</button>
+					<button type="submit" class="btn btn-outline-secondary"><i class="fas fa-paper-plane"></i>Send</button>
 				</form>
 			</div>
 		</div>
 	</div>
-	<%- include("blocks/online") %>
+	<%- include("blocks/onlineinroom") %>
+</div>
 </div>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/public/scripts/channel.js"></script>

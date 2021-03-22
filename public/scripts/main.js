@@ -10,7 +10,7 @@ const loadRooms = () => {
 			for (room of rooms) {
 				if ((room.private == false)) {
 					let channelElement = document.createElement("table");
-					channelElement.className = "table table-dark table-hover";
+					channelElement.className = "table table-hover";
 					channelElement.innerHTML = `
                     <tbody>
                         <tr>
@@ -21,7 +21,7 @@ const loadRooms = () => {
 					channelList.appendChild(channelElement);
 				} else {
 					let chatElement = document.createElement("table");
-					chatElement.className = "table table-dark table-hover";
+					chatElement.className = "table table-hover";
 					chatElement.innerHTML = `
                     <tbody>
                         <tr>

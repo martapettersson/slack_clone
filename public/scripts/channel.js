@@ -4,6 +4,7 @@ const onlineList = document.getElementById("online_list");
 const roomId = document.getElementById("room_id").value;
 const userId = document.getElementById("user_id").value;
 const userName = document.getElementById("user_name").value;
+channelMessages.scrollTop = channelMessages.scrollHeight;
 
 const socket = io();
 
@@ -20,7 +21,7 @@ socket.on("message", (msg) => {
 	outputMessage(msg);
 
 	// Scroll down
-	// channelMessages.scrollTop = channelMessages.scrollHeight;
+	channelMessages.scrollTop = channelMessages.scrollHeight;
 	// window.scrollTo(0, document.body.scrollHeight)
 	// channelMessages.scrollIntoView(false)
 });
@@ -56,15 +57,13 @@ messageForm.addEventListener("submit", (e) => {
 
 const outputMessage = (msg) => {
 	const div = document.createElement("div");
-	div.className = "bg-white text-dark mb-1";
+	div.className = "message";
 	const editAndDelete = `
         <hr>
         <button type="button" class="btn btn-secondary">❌</button>
     `;
 	div.innerHTML = `
-    <hr>
-        <button type="button" class="btn btn-secondary">❌</button>
-    <strong>${msg.username}</strong> <span>${msg.time}</span>
+    <strong class="meta">${msg.username}</strong> <span>${msg.time}</span>
         <p class="text">
             ${msg.text}
         </p>`;
@@ -74,6 +73,6 @@ const outputMessage = (msg) => {
 // Add users to DOM
 const outputUsers = (users) => {
 	onlineList.innerHTML = `
-        ${users.map((user) => `<p>💚 ${user.username}</p>`).join("")}
+        ${users.map((user) => `<p>🟢 ${user.username}</p>`).join("")}
     `;
 };

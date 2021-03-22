@@ -1,47 +1,107 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
 /* rgb(203, 41, 123); */
 
-html,
-body {
-	background-color: rgb(245, 236, 242);
-	font-family: "Lato", sans-serif;
-	height: 100%;
-}
-
-#slack-icon {
-	font-family: Arial, Helvetica, sans-serif;
-	font-weight: 900;
-	color: rgb(203, 41, 123);
-}
-
-.full-height {
-	height: 100%;
-}
-
 .italic {
 	font-style: italic;
 }
 
-#welcome-container {
-	width: 100%;
-	height: 100%;
-	position: relative;
-}
-.slack {
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	top: 0;
-	left: 0;
-}
-#login-register {
-	z-index: 10;
-	margin-top: 2%;
-	margin-left: 2%;
+.avatar {
+	width: 250px;
+	height: 250px;
+	object-fit: cover;
 }
 
-.avatar {
-	width: 200px;
-	height: 200px;
-	object-fit: cover;
+nav {
+	background: var(--dark-color-a); 
+	color: var(--light-color);
+}
+
+/*traversy*/
+
+:root {
+	--dark-color-a: #6a42fc;
+	--dark-color-b: #7337ff;
+	--light-color: #f1e9fe;
+	--success-color: #5cb85c;
+	--error-color: #d9534f;
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: "Lato", sans-serif;
+	background: var(--light-color);
+	margin: 10px;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+a:hover {
+	text-decoration: none;
+	color: var(--dark-color-a);
+}
+
+.btn {
+	cursor: pointer;
+	padding: 5px 15px;
+	background-color: rgb(252, 198, 156);
+	color: rgb(0, 0, 0);
+	/* background: var(--light-color);
+	color: var(--dark-color-a); */
+	border: 0;
+}
+
+.chat-container {
+	max-width: 1100px;
+	background: rgb(255, 249, 255);
+	margin: 30px auto;
+	overflow: hidden;
+}
+
+.chat-messages {
+	padding: 30px;
+	min-height: 300px;
+	max-height: 300px;
+	overflow-y: scroll;
+}
+
+.chat-messages .message {
+	padding: 10px;
+	margin-bottom: 15px;
+	background-color: var(--light-color);
+	border-radius: 5px;
+}
+
+.chat-messages .message .meta {
+	font-size: 15px;
+	font-weight: bold;
+	color: var(--dark-color-b);
+	opacity: 0.7;
+	margin-bottom: 7px;
+}
+
+.chat-messages .message .meta span {
+	color: #777;
+}
+
+.chat-form-container {
+	padding: 20px 30px;
+	background-color: var(--dark-color-a);
+}
+
+.chat-form-container form {
+	display: flex;
+}
+
+.chat-form-container input[type='text'] {
+	font-size: 16px;
+	padding: 5px;
+	height: 40px;
+	flex: 1;
 }

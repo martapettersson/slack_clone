@@ -2,7 +2,7 @@
 	<h5>Users Online</h5>
 	<div class="row" id="users_online">
         <% users.forEach(user => { %>
-            <% if (user.online = true) { %>
+            <% if (user.online == true) { %>
                 <p>🟢 <%= user.name %></p>
             <% } %>
         <% }) %>
