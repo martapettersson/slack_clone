@@ -33,10 +33,10 @@ app.use(expressEjsLayout);
 app.use(
 	fileUpload({
 		createParentPath: true,
-		// limits: {
-		// 	files: 1,
-		// 	fileSize: 5 * 1024 * 1024,
-		// },
+		limits: {
+			files: 1,
+			fileSize: 2 * 1024 * 1024,
+		},
 	})
 );
 
@@ -78,30 +78,21 @@ app.use("/", indexRouter);
 app.use("/users/", usersRouter);
 app.use("/channels/", channelsRouter);
 
+
+// Utils
 const formatMessage = require("./utils/message");
-const botName = "Slack Bot";
 const {
 	userJoin,
 	getCurrentUser,
 	userLeave,
 	getRoomUsers,
 } = require("./utils/users");
+
 // SOCKET
 io.on("connection", (socket) => {
 	socket.on("joinRoom", ({ userName, roomId }) => {
 		const user = userJoin(socket.id, userName, roomId);
 		socket.join(user.room);
-
-		// // Welcome
-		// socket.emit("message", formatMessage(botName, "Welcome!"));
-
-		// // Broadcast when a user connects
-		// socket.broadcast
-		// 	.to(user.room)
-		// 	.emit(
-		// 		"message",
-		// 		formatMessage(botName, `${user.username} has joined the chat`)
-		// 	);
 
 		// Send users and room info
 		io.to(user.room).emit("roomUsers", {
@@ -121,11 +112,6 @@ io.on("connection", (socket) => {
 	socket.on("disconnect", () => {
 		const user = userLeave(socket.id);
 		if (user) {
-			// io.to(user.room).emit(
-			// 	"message",
-			// 	formatMessage(botName, `${user.username} has left the chat`)
-			// );
-
 			// Send users and room info
 			io.to(user.room).emit("roomUsers", {
 				room: user.room,

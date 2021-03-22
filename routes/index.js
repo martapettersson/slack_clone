@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const { ensureAuthenticated } = require("../config/auth");
+const { rawListeners } = require("../models/users");
 const User = require("../models/users");
 
 /********** WELCOME ***********/
 
 router.get("/", (req, res) => {
-	res.render("welcome", { layout: false,  title: "The Slack Clone" });
+	res.render("welcome", { layout: false, title: "The Slack Clone" });
 });
 
 /********** DASHBOARD ***********/
@@ -16,15 +17,15 @@ router.get("/dashboard", ensureAuthenticated, (req, res) => {
 		{ _id: req.user._id },
 		{
 			$set: {
-				online: true
+				online: true,
 			},
 		}
 	).exec(function (err) {
 		if (err) {
 			console.log(err);
-			res.status(500)
+			res.status(500);
 		} else {
-			res.status(200)
+			res.status(200);
 		}
 	});
 	User.find().exec((error, users) => {
@@ -41,11 +42,20 @@ router.get("/dashboard", ensureAuthenticated, (req, res) => {
 
 router.post("/edit-profile", (req, res) => {
 	try {
-		if (!req.files) {
+		if (
+			req.files.profile_pic &&
+			req.files.profile_pic.mimetype.match(/image\/(jpeg|png|gif)/)
+		) {
+			//Image to upload
+			let profile_pic = req.files.profile_pic;
+			let file_name = `./uploads/${profile_pic.name}`;
+			profile_pic.mv(file_name);
+
 			User.findOneAndUpdate(
 				{ _id: req.user._id },
 				{
 					$set: {
+						profilePic: file_name,
 						name: req.body.user_name,
 						email: req.body.user_email,
 					},
@@ -59,15 +69,11 @@ router.post("/edit-profile", (req, res) => {
 				}
 			});
 		} else {
-			let profile_pic = req.files.profile_pic;
-			let file_name = `./uploads/${profile_pic.name}`;
-			profile_pic.mv(file_name);
-
+			//no files
 			User.findOneAndUpdate(
 				{ _id: req.user._id },
 				{
 					$set: {
-						profilePic: file_name,
 						name: req.body.user_name,
 						email: req.body.user_email,
 					},
