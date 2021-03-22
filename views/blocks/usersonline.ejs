@@ -1,0 +1,10 @@
+<div class="col-2 border-white border-start border-top">
+	<h5>Users Online</h5>
+	<div class="row" id="users_online">
+        <% users.forEach(user => { %>
+            <% if (user.online = true) { %>
+                <p>🟢 <%= user.name %></p>
+            <% } %>
+        <% }) %>
+    </div>
+</div>

@@ -67,6 +67,21 @@ router.post("/login", (req, res, next) => {
 /**************** LOGOUT *****************/
 
 router.get("/logout", (req, res) => {
+	User.findOneAndUpdate(
+		{ _id: req.user._id },
+		{
+			$set: {
+				online: false,
+			},
+		}
+	).exec(function (err) {
+		if (err) {
+			console.log(err);
+			res.status(500);
+		} else {
+			res.status(200);
+		}
+	});
 	req.logout();
 	req.flash("success_msg", "You have logged out!");
 	res.redirect("/users/login");
