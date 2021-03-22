@@ -104,7 +104,6 @@ io.on("connection", (socket) => {
 	// Listen for channelMessage
 	socket.on("channelMessage", (msg) => {
 		const user = getCurrentUser(socket.id);
-		console.log(user);
 		io.to(user.room).emit("message", formatMessage(user.username, msg));
 	});
 

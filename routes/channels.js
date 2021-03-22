@@ -11,7 +11,6 @@ router.get("/", ensureAuthenticated, (req, res) => {
 		if (error) {
 			return handleError(error);
 		} else {
-			console.log(rooms);
 			let userRooms = rooms.filter(
 				(room) => room.members.includes(req.user._id) || room.private == false
 			);
@@ -87,7 +86,7 @@ router.post("/private/create", ensureAuthenticated, (req, res) => {
 	}
 });
 
-/********** CHANNEL MESSAGES ***********/
+/********** CHANNEL/PRIVATE MESSAGES ***********/
 
 router.put("/message/create", ensureAuthenticated, (req, res) => {
 	let new_message = {

@@ -8,7 +8,6 @@ const loadRooms = () => {
 		.then((res) => res.json())
 		.then((rooms) => {
 			for (room of rooms) {
-				console.log(room.private)
 				if ((room.private == false)) {
 					let channelElement = document.createElement("table");
 					channelElement.className = "table table-dark table-hover";
@@ -67,7 +66,6 @@ privateForm.addEventListener("submit", (e) => {
 		user: e.target.elements.users.value,
 		userName: document.getElementById(`${e.target.elements.users.value}`).innerHTML,
 	};
-	console.log(private);
 	fetch("/channels/private/create", {
 		method: "POST",
 		headers: {
