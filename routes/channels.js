@@ -39,7 +39,6 @@ router.post("/create", ensureAuthenticated, (req, res) => {
 });
 
 router.get("/:id", ensureAuthenticated, (req, res) => {
-	let data = {};
 	User.find().exec((error, users) => {
 		if (error) {
 			return handleError(error);
@@ -67,23 +66,36 @@ router.get("/:id", ensureAuthenticated, (req, res) => {
 // /********** PRIVATE CHATS ***********/
 
 router.post("/private/create", ensureAuthenticated, (req, res) => {
-	let chat = new Channel({
-		name: `${req.user.name} - ${req.body.userName}`,
-		private: true,
-		members: [req.user._id, req.body.user],
-	});
-	try {
-		chat.save((err, doc) => {
-			if (err) {
-				console.log(err);
-				res.status(500);
+	Channel.find({ members: { $all: [req.user._id, req.body.user] } }).exec(
+		(error, channel) => {
+			if (error) {
+				return handleError(error);
 			} else {
-				res.status(200).send(doc);
+				if (channel.length !== 0) {
+					res.status(500);
+					res.redirect("/dashboard");
+				} else {
+					let chat = new Channel({
+						name: `${req.user.name} - ${req.body.userName}`,
+						private: true,
+						members: [req.user._id, req.body.user],
+					});
+					try {
+						chat.save((err, doc) => {
+							if (err) {
+								console.log(err);
+								res.status(500);
+							} else {
+								res.status(200).send(doc);
+							}
+						});
+					} catch (error) {
+						console.log(error);
+					}
+				}
 			}
-		});
-	} catch (error) {
-		console.log(error);
-	}
+		}
+	);
 });
 
 /********** CHANNEL/PRIVATE MESSAGES ***********/

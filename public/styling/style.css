@@ -19,8 +19,8 @@ nav {
 /*traversy*/
 
 :root {
-	--dark-color-a: #6a42fc;
-	--dark-color-b: #7337ff;
+	--dark-color-a: #7c2bff;
+	--dark-color-b: #873dfe;
 	--light-color: #f1e9fe;
 	--success-color: #5cb85c;
 	--error-color: #d9534f;
@@ -50,7 +50,7 @@ a:hover {
 .btn {
 	cursor: pointer;
 	padding: 5px 15px;
-	background-color: rgb(252, 198, 156);
+	background-color: rgb(255, 182, 113);
 	color: rgb(0, 0, 0);
 	/* background: var(--light-color);
 	color: var(--dark-color-a); */
@@ -60,7 +60,7 @@ a:hover {
 .chat-container {
 	max-width: 1100px;
 	background: rgb(255, 249, 255);
-	margin: 30px auto;
+	margin: 10px auto;
 	overflow: hidden;
 }
 
