@@ -1,7 +1,9 @@
 <nav class="navbar navbar-expand-lg">
 	<div class="container-fluid">
-		<a class="text-white nav-link navbar-brand" href="/dashboard">Home</a>
-		<p class="border p-2">User: <%= user.name %> </p>
+		<a class="nav-link navbar-brand" href="/dashboard">Home</a>
+		<div id="userDiv" class="border p-2 justify-content-between">
+			<img class="mini-avatar" src="<%= user.profilePic %>" alt="Users profile picture"> <%= user.name %>
+		</div>
 		<a class="btn btn-outline-secondary" href="/users/logout">Logout</a>
 	</div>
 </nav>

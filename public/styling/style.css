@@ -11,6 +11,12 @@
 	object-fit: cover;
 }
 
+.mini-avatar {
+	width: 30px;
+	height: 30px;
+	object-fit: cover;
+}
+
 nav {
 	background: var(--dark-color-a); 
 	color: var(--light-color);
@@ -45,6 +51,14 @@ a {
 a:hover {
 	text-decoration: none;
 	color: var(--dark-color-a);
+}
+
+.nav-link {
+	color:var(--light-color);
+}
+
+.nav-link:hover {
+	color: black;
 }
 
 .btn {

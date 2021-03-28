@@ -48,14 +48,14 @@ router.post("/edit-profile", (req, res) => {
 		) {
 			//Image to upload
 			let profile_pic = req.files.profile_pic;
-			let file_name = `./uploads/${profile_pic.name}`;
+			let file_name = `./public/uploads/${profile_pic.name}`;
 			profile_pic.mv(file_name);
 
 			User.findOneAndUpdate(
 				{ _id: req.user._id },
 				{
 					$set: {
-						profilePic: file_name,
+						profilePic: `/public/uploads/${profile_pic.name}`,
 						name: req.body.user_name,
 						email: req.body.user_email,
 					},
