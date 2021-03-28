@@ -90,8 +90,8 @@ const {
 
 // SOCKET
 io.on("connection", (socket) => {
-	socket.on("joinRoom", ({ userName, roomId }) => {
-		const user = userJoin(socket.id, userName, roomId);
+	socket.on("joinRoom", ({ userName, roomId, userId }) => {
+		const user = userJoin(socket.id, userName, roomId, userId);
 		socket.join(user.room);
 
 		// Send users and room info
@@ -102,9 +102,15 @@ io.on("connection", (socket) => {
 	});
 
 	// Listen for channelMessage
-	socket.on("channelMessage", (msg) => {
+	socket.on("channelMessage", (content) => {
 		const user = getCurrentUser(socket.id);
-		io.to(user.room).emit("message", formatMessage(user.username, msg));
+		io.to(user.room).emit("message", {msg: formatMessage(user.username, content.msg), userId: user.userId, messageId: content.messageId});
+	});
+
+	// Listen for deleteMessage
+	socket.on("deleteMessage", (msg) => {
+		const user = getCurrentUser(socket.id);
+		io.to(user.room).emit("delete", msg);
 	});
 
 	// Client disconnects

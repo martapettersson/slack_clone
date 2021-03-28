@@ -18,11 +18,13 @@
 		<div id="room" class="row row-cols-1">
 				<div class="chat-messages" id="channel_messages">
 					<% channel.messages.forEach(message => { %>
-						<div class="message">
-							<!-- <% if (message.user._id.toString() === user._id.toString()) { %>
-								<button type="button" class="btn btn-secondary">❌</button>
-							<% } %> -->
-							<strong class="meta"><%= message.user.name %></strong> <span><%= message.date.toGMTString() %></span></strong>
+						<div class="message" id="<%=message._id%>">
+							<strong class="meta"><%= message.user.name %></strong> <span><%= message.date.toGMTString() %></span> 
+							<span>
+								<% if (message.user._id.toString() === user._id.toString()) { %>
+								<button onclick="deleteMessage('<%=message._id%>')" type="button" class="delete-btn btn-secondary">❌</button>
+							<% } %>
+							</span>
 							<p class="text"><%= message.message %></p>
 						</div>
 					<% }) %>

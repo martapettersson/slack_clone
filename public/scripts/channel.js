@@ -4,12 +4,13 @@ const onlineList = document.getElementById("online_list");
 const roomId = document.getElementById("room_id").value;
 const userId = document.getElementById("user_id").value;
 const userName = document.getElementById("user_name").value;
+
 channelMessages.scrollTop = channelMessages.scrollHeight;
 
 const socket = io();
 
 // Join chatroom
-socket.emit("joinRoom", { userName, roomId });
+socket.emit("joinRoom", { userName, roomId, userId });
 
 // Get room and users
 socket.on("roomUsers", ({ room, users }) => {
@@ -22,8 +23,6 @@ socket.on("message", (msg) => {
 
 	// Scroll down
 	channelMessages.scrollTop = channelMessages.scrollHeight;
-	// window.scrollTo(0, document.body.scrollHeight)
-	// channelMessages.scrollIntoView(false)
 });
 
 //Message submit
@@ -42,8 +41,9 @@ messageForm.addEventListener("submit", (e) => {
 		})
 			.then((res) => res.json())
 			.then((data) => {
+				let messageId = data.messages[data.messages.length -1]._id
 				//Emit msg to server
-				socket.emit("channelMessage", msg);
+				socket.emit("channelMessage", {msg, messageId});
 			})
 			.catch((error) => {
 				console.error("Error:", error);
@@ -55,18 +55,33 @@ messageForm.addEventListener("submit", (e) => {
 
 // Output message to DOM
 
-const outputMessage = (msg) => {
+const outputMessage = (content) => {
+	console.log(content)
+	console.log("Userid:" + userId)
+	console.log("Userid:" + content.userId)
 	const div = document.createElement("div");
+	div.setAttribute("id", `${content.messageId}`);
 	div.className = "message";
+
 	const editAndDelete = `
-        <hr>
-        <button type="button" class="btn btn-secondary">❌</button>
+        <button onclick="deleteMessage('${content.messageId}')" type="button" class="delete-btn btn-secondary">❌</button>
     `;
-	div.innerHTML = `
-    <strong class="meta">${msg.username}</strong> <span>${msg.time}</span>
+
+	if(content.userId == userId) {
+		div.innerHTML = `
+    	<strong class="meta">${content.msg.username}</strong> <span>${content.msg.time}</span> <span>${editAndDelete}</span>
         <p class="text">
-            ${msg.text}
+            ${content.msg.text} 
+        </p>
+		`
+		;
+	} else {
+		div.innerHTML = `
+    	<strong class="meta">${content.msg.username}</strong> <span>${content.msg.time}</span>
+        <p class="text">
+            ${content.msg.text}
         </p>`;
+	}
 	channelMessages.appendChild(div);
 };
 
@@ -76,3 +91,30 @@ const outputUsers = (users) => {
         ${users.map((user) => `<p>🟢 ${user.username}</p>`).join("")}
     `;
 };
+
+const deleteMessage = (id) => {
+	console.log("delete this:" + id)
+	fetch("/channels/message/delete", {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ messageId: id, channelId: roomId }),
+	})
+		.then((res) => {})
+		.then(() => {
+			// let el = document.getElementById(id);
+			// el.remove();
+			socket.emit("deleteMessage", id);
+		})
+		.catch((error) => console.log(error));
+};
+
+socket.on("delete", (messageId) => {
+	console.log("here is the msg id:" +  messageId)
+	// channel_messages.removeChild(channel_messages.lastChild)
+	let el = document.getElementById(messageId);
+	// el.style.display = "none"
+	el.parentNode.removeChild(el)
+	// el.remove();
+});

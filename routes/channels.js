@@ -120,19 +120,19 @@ router.put("/message/create", ensureAuthenticated, (req, res) => {
 	);
 });
 
-// router.put("/message/delete", ensureAuthenticated, (req, res) => {
-// 	Channel.updateOne(
-// 		{ '_id': req.body.channelId },
-// 		{ $pull: { messages: { _id: req.body.messageId } } },
-// 		{ safe: true },
-//     	(err, obj) => {
-// 			if (err) {
-// 				return handleError(error);
-// 			}
-// 			res.end()
-// 		}
-// 	)
-// });
+router.put("/message/delete", ensureAuthenticated, (req, res) => {
+	Channel.updateOne(
+		{ '_id': req.body.channelId },
+		{ $pull: { messages: { _id: req.body.messageId } } },
+		{ safe: true },
+    	(err, obj) => {
+			if (err) {
+				return handleError(error);
+			}
+			res.end()
+		}
+	)
+});
 
 // router.put("/message/update", ensureAuthenticated, (req, res) => {
 // 	Channel.updateOne(

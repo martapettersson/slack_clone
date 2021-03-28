@@ -12,9 +12,19 @@
 }
 
 .mini-avatar {
-	width: 30px;
-	height: 30px;
+	width: 40px;
+	height: 40px;
 	object-fit: cover;
+	border-radius: 100%;
+}
+
+.divBlock {
+	display: block;
+	color: var(--light-color);
+}
+
+.divBlock:hover {
+	color: black;
 }
 
 nav {
@@ -66,9 +76,15 @@ a:hover {
 	padding: 5px 15px;
 	background-color: rgb(255, 182, 113);
 	color: rgb(0, 0, 0);
-	/* background: var(--light-color);
-	color: var(--dark-color-a); */
 	border: 0;
+}
+
+.delete-btn {
+	cursor: pointer;
+	padding: 2px 10px;
+	background-color: var(--dark-color-a);
+	border: 0;
+	border-radius: 25px;
 }
 
 .chat-container {
