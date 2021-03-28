@@ -7,6 +7,9 @@ const userName = document.getElementById("user_name").value;
 
 channelMessages.scrollTop = channelMessages.scrollHeight;
 
+
+/************************* SOCKET *************************/
+
 const socket = io();
 
 // Join chatroom
@@ -25,7 +28,13 @@ socket.on("message", (msg) => {
 	channelMessages.scrollTop = channelMessages.scrollHeight;
 });
 
-//Message submit
+socket.on("delete", (messageId) => {
+	let el = document.getElementById(messageId);
+	el.parentNode.removeChild(el)
+});
+
+/************************* Message submit *************************/
+
 messageForm.addEventListener("submit", (e) => {
 	e.preventDefault();
 	const msg = e.target.elements.msg.value;
@@ -53,12 +62,9 @@ messageForm.addEventListener("submit", (e) => {
 	e.target.elements.msg.focus();
 });
 
-// Output message to DOM
+/*********************** Output message to DOM *********************/
 
 const outputMessage = (content) => {
-	console.log(content)
-	console.log("Userid:" + userId)
-	console.log("Userid:" + content.userId)
 	const div = document.createElement("div");
 	div.setAttribute("id", `${content.messageId}`);
 	div.className = "message";
@@ -85,15 +91,17 @@ const outputMessage = (content) => {
 	channelMessages.appendChild(div);
 };
 
-// Add users to DOM
+/*********************** Add users to DOM *********************/
+
 const outputUsers = (users) => {
 	onlineList.innerHTML = `
         ${users.map((user) => `<p>🟢 ${user.username}</p>`).join("")}
     `;
 };
 
+/*********************** DELETE MESSAGE *********************/
+
 const deleteMessage = (id) => {
-	console.log("delete this:" + id)
 	fetch("/channels/message/delete", {
 		method: "PUT",
 		headers: {
@@ -103,18 +111,7 @@ const deleteMessage = (id) => {
 	})
 		.then((res) => {})
 		.then(() => {
-			// let el = document.getElementById(id);
-			// el.remove();
 			socket.emit("deleteMessage", id);
 		})
 		.catch((error) => console.log(error));
 };
-
-socket.on("delete", (messageId) => {
-	console.log("here is the msg id:" +  messageId)
-	// channel_messages.removeChild(channel_messages.lastChild)
-	let el = document.getElementById(messageId);
-	// el.style.display = "none"
-	el.parentNode.removeChild(el)
-	// el.remove();
-});

@@ -1,4 +1,4 @@
-/************************* CHANNELS *****************************/
+/************************* PUBLIC CHANNELS *************************/
 
 const channelList = document.getElementById("channel_list");
 const privateList = document.getElementById("private_list");
@@ -35,7 +35,6 @@ const loadRooms = () => {
 		});
 };
 
-// Channel Submit
 const channelForm = document.getElementById("channel_form");
 
 channelForm.addEventListener("submit", (e) => {
@@ -51,13 +50,12 @@ channelForm.addEventListener("submit", (e) => {
 		},
 		body: JSON.stringify(channel),
 	})
-		.then((res) => console.log(res))
+		.then((res) => {})
 		.then(() => (window.location.href = "/dashboard"));
 });
 
-/************************* PRIVATE *****************************/
+/************************* PRIVATE CHANNELS *****************************/
 
-// Chat Submit
 const privateForm = document.getElementById("private_form");
 
 privateForm.addEventListener("submit", (e) => {
@@ -73,7 +71,7 @@ privateForm.addEventListener("submit", (e) => {
 		},
 		body: JSON.stringify(private),
 	})
-		.then((res) => console.log(res))
+		.then((res) => {})
 		.then(() => (window.location.href = "/dashboard"));
 });
 

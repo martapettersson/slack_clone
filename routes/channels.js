@@ -134,18 +134,4 @@ router.put("/message/delete", ensureAuthenticated, (req, res) => {
 	)
 });
 
-// router.put("/message/update", ensureAuthenticated, (req, res) => {
-// 	Channel.updateOne(
-// 		{ '_id': req.body.channelId },
-// 		{ 'messages._id': req.body.messageId },
-// 		{ $set: { "messages.$.message": req.body.message } },
-//     	(err, obj) => {
-// 			if (err) {
-// 				return handleError(error);
-// 			}
-// 			res.end()
-// 		}
-// 	)
-// });
-
 module.exports = router;

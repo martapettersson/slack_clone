@@ -18,11 +18,9 @@ module.exports = function (passport) {
 						return done(null, false, { message: "Incorrect email or password!" });
 					}
 
-					// Compare user password and password input
 					bcrypt.compare(password, user.password, (error, isMatch) => {
 						if (error) throw error;
 
-						// If passwords match
 						if (isMatch) {
 							return done(null, user);
 						} else {
@@ -34,7 +32,6 @@ module.exports = function (passport) {
 		)
 	);
 
-    // To use User Object in Pages later on
 	passport.serializeUser((user, done) => {
 		done(null, user.id);
 	});

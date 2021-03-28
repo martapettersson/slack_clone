@@ -47,7 +47,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 //JSON
 app.use(express.json());
 
-// To use body-parser
+// Body-parser
 app.use(express.urlencoded({ extended: true }));
 
 // Sessions, for flash
@@ -61,7 +61,8 @@ app.use(
 
 // Passport
 app.use(passport.initialize());
-// So we can save our user data in a session
+
+// Save user data in a session
 app.use(passport.session());
 
 // Flash, send messages
@@ -77,7 +78,6 @@ app.use((req, res, next) => {
 app.use("/", indexRouter);
 app.use("/users/", usersRouter);
 app.use("/channels/", channelsRouter);
-
 
 // Utils
 const formatMessage = require("./utils/message");
